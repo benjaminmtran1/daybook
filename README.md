@@ -1,5 +1,9 @@
 # Daybook / Edition — first build
 
+## GitHub Pages version
+
+The Supabase-backed browser app lives in `web/`; its compiled Pages output is in `docs/`. See [DEPLOYMENT.md](DEPLOYMENT.md) for publishing, authentication settings, verification and data migration limits. The original Sites implementation below is retained unchanged.
+
 Private personal planning app. Same Sites identity and URL as the original prototype.
 
 ## Current build

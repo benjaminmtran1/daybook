@@ -1,0 +1,1 @@
+.auth-shell{max-width:640px;margin:8vh auto;padding:30px}.auth-shell form{display:grid;gap:22px;margin-top:40px}.auth-shell input{width:100%}.auth-shell h1{font:normal clamp(2.5rem,7vw,4rem)/1.1 var(--serif)}.account-signout{position:fixed;bottom:12px;left:18px;background:var(--paper);z-index:10}@media(max-width:760px){.account-signout{position:static;margin:14px 20px 100px}}

@@ -1,0 +1,7 @@
+{
+  "name": "daybook-push-runtime-draft",
+  "private": true,
+  "type": "module",
+  "description": "Dependency audit lock for the draft Edge adapter. This does not activate or deploy push.",
+  "dependencies": { "@supabase/supabase-js": "2.118.0", "web-push": "3.6.7" }
+}

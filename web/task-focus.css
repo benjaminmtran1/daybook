@@ -1,0 +1,49 @@
+/* A paper-like reading surface, not another dashboard card. */
+dialog.task-focus {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overscroll-behavior: contain;
+}
+.task-focus::backdrop { background: var(--paper); }
+.task-focus-inner {
+  width: min(100%, 860px);
+  min-height: 100%;
+  margin: auto;
+  padding: 28px 48px max(28px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+}
+.task-focus-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.task-focus-content { padding: clamp(40px, 10vh, 100px) 0 36px; }
+.task-focus-content h1 { font-size: clamp(2.3rem, 6vw, 4rem); overflow-wrap: anywhere; margin: 18px 0 30px; }
+.task-focus-content h1:focus { outline: none; }
+.task-focus-details { display: flex; flex-wrap: wrap; gap: 18px 36px; margin: 0 0 36px; }
+.task-focus-details dt { color: var(--quiet); font-size: .75rem; }
+.task-focus-details dd { margin: 4px 0 0; font-size: .875rem; overflow-wrap: anywhere; }
+.task-focus-state { font: 1.3rem/1.6 var(--serif); }
+.task-focus-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.task-focus-status { min-height: 1.6em; overflow-wrap: anywhere; margin-top: 16px; }
+.task-focus-footer { margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line); }
+@media (max-width: 700px) {
+  .task-focus-inner { padding: max(20px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom)); }
+  .task-focus-toolbar { gap: 12px; }
+  .task-focus-toolbar .meta { font-size: .75rem; }
+  .task-focus-content { padding-top: 48px; }
+}

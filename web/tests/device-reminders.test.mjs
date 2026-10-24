@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { foregroundReminders, defaultReminderPreferences, readReminderPreferences, reminderClock } from '../device-reminders.ts';
+const enabled = { ...defaultReminderPreferences, enabled: true };
+const task = { id: 'a', title: 'Invoice', deadline: '2026-10-24', done: false };
+test('off by default; no implicit notifications', () => { assert.deepEqual(foregroundReminders([task], defaultReminderPreferences, new Date()), []); });
+test('corrupt settings cannot enable prompts or invalid times', () => { assert.deepEqual(readReminderPreferences({ enabled: 'yes', morning: '25:99', evening: null }), defaultReminderPreferences); });
+test('Toronto calendar rather than device timezone controls reminders', () => { assert.deepEqual(reminderClock(new Date('2026-10-25T02:00:00Z')), { day: '2026-10-24', time: '22:00' }); });
+test('morning and due prompts only at or after configured times', () => { assert.equal(foregroundReminders([task], enabled, new Date('2026-10-24T11:59:00Z')).length, 0); assert.deepEqual(foregroundReminders([task], enabled, new Date('2026-10-24T12:00:00Z')).map(r=>r.kind), ['morning']); assert.deepEqual(foregroundReminders([task], enabled, new Date('2026-10-24T13:00:00Z')).map(r=>r.kind), ['morning', 'due']); });
+test('evening replaces stale morning prompt, done and other-day tasks excluded', () => { assert.deepEqual(foregroundReminders([task, {...task,id:'done',done:true}, {...task,id:'old',deadline:'2026-10-23'}], enabled, new Date('2026-10-24T22:00:00Z')).map(r=>r.kind), ['evening','due']); });
+test('dismissals and repeated input do not repeat prompts', () => { assert.deepEqual(foregroundReminders([task,task], enabled, new Date('2026-10-24T13:00:00Z'), ['2026-10-24:morning']).map(r=>r.id), ['2026-10-24:due:a']); });
+test('old dismissals do not hide a new day; missed days not replayed', () => { const next = foregroundReminders([task], enabled, new Date('2026-10-25T13:00:00Z'), ['2026-10-24:morning']); assert.deepEqual(next.map(r=>r.id), ['2026-10-25:morning']); });
+test('DST repeated wall-clock hour shares same daily identity', () => { const p = { ...enabled, morning:'01:00', evening:'18:00' }; assert.deepEqual(foregroundReminders([],p,new Date('2026-11-01T05:30:00Z')), foregroundReminders([],p,new Date('2026-11-01T06:30:00Z'))); });

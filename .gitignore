@@ -45,3 +45,10 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+/web/node_modules/
+
+# Nested server test/runtime dependencies
+/supabase/calendar-foundation/runtime/node_modules/
+
+/tests/sql/node_modules/

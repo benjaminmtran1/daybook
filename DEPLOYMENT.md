@@ -4,7 +4,7 @@ The Pages application is in `web/`. The original Sites app remains in `app/` and
 
 ## Build and publish
 
-Requires Node 22.13 or newer. From `web/`, run `npm ci` then `npm run build`. Commit the generated `docs/` along with source and `web/package-lock.json`. GitHub Pages must publish **main /docs** (Deploy from a branch). The production base path is `/daybook/`.
+Requires Node 22.13 or newer. From `web/`, run `npm ci`, `npm test`, then `npm run build`. Commit the generated `docs/` along with source and `web/package-lock.json`. GitHub Pages must publish **main /docs** (Deploy from a branch). The production base path is `/daybook/`.
 
 ## Backend
 
@@ -21,3 +21,7 @@ The old Sites account and new email account are separate identities. No existing
 ## Verification
 
 Typecheck and production build; transaction-scoped database tests for owner isolation, successful saves and stale-save rejection; Supabase security advisor check. Browser signup, email delivery, receipt upload/download and cross-device interaction require a live Pages URL and configured auth redirects before final acceptance.
+
+## Custom-domain build (cutover branch; publishing requires approval)
+
+On this cutover branch normal `npm run build` targets `/` and persists `web/public/CNAME` into the generated output. For rollback only, use `DAYBOOK_BASE_PATH=/daybook/ npm run build` and remove the custom-domain CNAME/Pages setting in a coordinated rollback. This changes assets, auth callback destinations, manifest links and service worker scope consistently. Invalid/absolute-URL base values fail closed. The intended destination is `https://daybook.benjamintran.ca/`; this build option does not configure DNS, TLS, GitHub Pages or Supabase redirect allowlists. Keep both the existing Pages URL and the new exact callback allowed during a verified migration, and update production auth settings only with appropriate approval. Test confirmation, password recovery, sign-in, records and receipts on the destination before retiring the old URL.

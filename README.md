@@ -4,6 +4,18 @@
 
 The Supabase-backed browser app lives in `web/`; its compiled Pages output is in `docs/`. See [DEPLOYMENT.md](DEPLOYMENT.md) for publishing, authentication settings, verification and data migration limits. The original Sites implementation below is retained unchanged.
 
+### Pages v1 completion work (local review branch)
+
+- Single-task focus with completion/edit controls and keyboard return.
+- Open-device refresh every 30 seconds and on return/reconnection, paused for drafts, saves and conflicts.
+- Account-bound requests, guarded manual reloads, and safe receipt retry/concurrent-submit handling.
+- On-device English photo OCR with explicit per-field review. JPEG/PNG/WebP only; PDFs remain manual.
+- Opt-in foreground planning/review/due prompts, not closed-app notifications.
+
+Run `cd web && npm ci && npm test && npm run build`. Automated tests use synthetic data and mocked services; they do not establish live account, storage, mobile, or OCR accuracy acceptance. See the companion feature-completion audit for the original scope and `COMPLETION_STATUS.md` for this branch's verification and open dependencies. No production deployment is implied.
+
+The following sections describe the preserved original Sites build, not a claim that the Pages integration work is complete.
+
 Private personal planning app. Same Sites identity and URL as the original prototype.
 
 ## Current build

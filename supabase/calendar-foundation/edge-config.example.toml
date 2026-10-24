@@ -1,0 +1,12 @@
+# DRAFT ONLY. Do not merge into active supabase/config.toml or deploy without
+# specific approval for deployment and this gateway authentication setting.
+# Google's redirect callback has no Daybook bearer JWT, so the platform's blanket
+# JWT gate must be disabled for this one function. This does NOT make data/actions
+# public: all POST operations independently verify the user's bearer token using
+# Supabase getUser and check Origin. The public GET callback only redirects code /
+# state to the fixed app URL fragment; authenticated same-owner + browser nonce
+# completion is mandatory before token exchange/storage. No callback credentials
+# are written by an unauthenticated request.
+[functions.daybook-calendar]
+verify_jwt = false
+entrypoint = "./functions/daybook-calendar/index.ts"

@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.118.0",
+    "@xmldom/xmldom": "npm:@xmldom/xmldom@0.9.12",
+    "google-auth-library": "npm:google-auth-library@11.3.1",
+    "ical.js": "npm:ical.js@2.2.1"
+  },
+  "compilerOptions": {
+    "types": ["npm:@types/node@22.19.19"]
+  }
+}

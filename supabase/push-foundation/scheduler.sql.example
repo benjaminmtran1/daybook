@@ -1,0 +1,22 @@
+-- REVIEW-ONLY EXAMPLE. NOT APPLIED. Requires separate approval for configuration and scheduling.
+-- Assumes approved pg_cron/pg_net setup and pre-created Vault entries:
+-- daybook_push_dispatch_url: exact HTTPS function URL ending /daybook-push/dispatch
+-- daybook_push_dispatch_secret: private dispatcher credential, never included in source/client.
+-- Requires reviewed gateway config described in PUSH_ACTIVATION.md.
+select cron.schedule(
+ 'daybook-push-every-minute',
+ '* * * * *',
+ $job$
+ select net.http_post(
+   url := (select decrypted_secret from vault.decrypted_secrets where name = 'daybook_push_dispatch_url'),
+   headers := jsonb_build_object(
+     'Content-Type', 'application/json',
+     'x-daybook-dispatch-secret', (select decrypted_secret from vault.decrypted_secrets where name = 'daybook_push_dispatch_secret')
+   ),
+   body := '{}'::jsonb,
+   timeout_milliseconds := 45000
+ );
+ $job$
+);
+-- Before enabling: verify one invocation, observe failed requests and provider rejection/unknown
+-- states, confirm approved quotas/costs, and have an explicit disable/cleanup procedure.

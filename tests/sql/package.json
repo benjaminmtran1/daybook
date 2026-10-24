@@ -1,0 +1,1 @@
+{"name":"daybook-disposable-sql-tests","private":true,"type":"module","scripts":{"test":"node --test sql.test.mjs"},"dependencies":{"@electric-sql/pglite":"0.4.6"}}
